@@ -101,7 +101,7 @@ function crushCandy() {
   crushFour();
   crushThree();
   document.getElementById('score').innerText = score;
-}
+} 
 
 function crushThree() {
   // logic for crushing candy in rows
@@ -566,6 +566,7 @@ function crushFive() {
         candyOne.src == candyTwo.src &&
         candyTwo.src == candyThree.src &&
         candyThree.src == candyFour.src &&
+        candyFour.src == candyFive.src &&
         candyOne.src.includes('Red') &&
         candyTwo.src.includes('Red') &&
         candyThree.src.includes('Red') &&
