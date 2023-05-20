@@ -3,10 +3,23 @@ let board = [];
 const rows = 9;
 const columns = 9;
 let score = 0;
+let gameStarted = false;
+let testData = [
+  ['Green', 'Blue'],
+  ['Green', 'Yellow'],
+  ['Green', 'Green'],
+  ['Blue', 'Green'],
+  ['Yellow', 'Yellow'],
+  ['Blue', 'Yellow'],
+  ['Green', 'Purple-Striped-Vertical'],
+  ['Purple', 'Green'],
+  ['Purple', 'Blue'],
+];
 
 window.onload = function () {
   startGame();
   window.setInterval(function () {
+    crushColumn();
     crushCandy();
     slideCandy();
     generateCandy();
@@ -17,24 +30,64 @@ function randomCandy() {
   return candies[Math.floor(Math.random() * candies.length)];
 }
 
+// function startGame() {
+//   for (r = 0; r < rows; r++) {
+//     let row = [];
+//     for (c = 0; c < columns; c++) {
+//       // img id = 0-0 or 0-1 or whatever coordinate the candy img is located so that it can be targeted for whatever dragging, dropping, and replacing with other candy 'power ups'
+//       let tile = document.createElement('img');
+//       tile.id = r.toString() + '-' + c.toString();
+//       tile.src = './images/' + randomCandy() + '.png';
+
+//       tile.addEventListener('dragstart', dragStart);
+//       tile.addEventListener('dragover', dragOver);
+//       tile.addEventListener('dragenter', dragEnter);
+//       tile.addEventListener('dragleave', dragLeave);
+//       tile.addEventListener('drop', dragDrop);
+//       tile.addEventListener('dragend', dragEnd);
+
+//       document.getElementById('board').append(tile);
+//       row.push(tile);
+//     }
+//     board.push(row);
+//   }
+//   console.log(board);
+// }
+
 function startGame() {
   for (r = 0; r < rows; r++) {
     let row = [];
     for (c = 0; c < columns; c++) {
       // img id = 0-0 or 0-1 or whatever coordinate the candy img is located so that it can be targeted for whatever dragging, dropping, and replacing with other candy 'power ups'
-      let tile = document.createElement('img');
-      tile.id = r.toString() + '-' + c.toString();
-      tile.src = './images/' + randomCandy() + '.png';
+      if (c < 2) {
+        let tile = document.createElement('img');
+        tile.id = r.toString() + '-' + c.toString();
+        tile.src = './images/' + testData[r][c] + '.png';
 
-      tile.addEventListener('dragstart', dragStart);
-      tile.addEventListener('dragover', dragOver);
-      tile.addEventListener('dragenter', dragEnter);
-      tile.addEventListener('dragleave', dragLeave);
-      tile.addEventListener('drop', dragDrop);
-      tile.addEventListener('dragend', dragEnd);
+        tile.addEventListener('dragstart', dragStart);
+        tile.addEventListener('dragover', dragOver);
+        tile.addEventListener('dragenter', dragEnter);
+        tile.addEventListener('dragleave', dragLeave);
+        tile.addEventListener('drop', dragDrop);
+        tile.addEventListener('dragend', dragEnd);
 
-      document.getElementById('board').append(tile);
-      row.push(tile);
+        document.getElementById('board').append(tile);
+        row.push(tile);
+      } else {
+        let tile = document.createElement('img');
+        tile.id = r.toString() + '-' + c.toString();
+        tile.src = './images/' + randomCandy() + '.png';
+
+        tile.addEventListener('dragstart', dragStart);
+        tile.addEventListener('dragover', dragOver);
+        tile.addEventListener('dragenter', dragEnter);
+        tile.addEventListener('dragleave', dragLeave);
+        tile.addEventListener('drop', dragDrop);
+        tile.addEventListener('dragend', dragEnd);
+
+        document.getElementById('board').append(tile);
+        row.push(tile);
+      }
     }
     board.push(row);
   }
@@ -62,7 +115,9 @@ function dragEnd() {
   if (curTile.src.includes('blank') || otherTile.src.includes('blank')) {
     return;
   }
-
+  if (!gameStarted) {
+    gameStarted = true;
+  }
   let curCoords = curTile.id.split('-'); // turns coordinates of clicked tile(or candy, for exaple '0-0') into ['0', '0']
   let r = parseInt(curCoords[0]);
   let c = parseInt(curCoords[1]);
@@ -101,7 +156,7 @@ function crushCandy() {
   crushFour();
   crushThree();
   document.getElementById('score').innerText = score;
-} 
+}
 
 function crushThree() {
   // logic for crushing candy in rows
@@ -650,37 +705,165 @@ function crushFive() {
   }
 }
 
-// function crushColumn() {
-//   for (let c = 0; c < columns; c++) {
-//     for (let r = 0; r < rows; r++) {
-//       column = [
-//         [r][c],
-//         [r + 1][c],
-//         [r + 2][c],
-//         [r + 3][c],
-//         [r + 4][c],
-//         [r + 5][c],
-//         [r + 6][c],
-//         [r + 7][c],
-//         [r + 8][c],
-//       ];
-//       let candyOne = board[r][c];
-//       let candyTwo = board[r + 1][c];
-//       let candyThree = board[r + 2][c];
-//       if (
-//         candyOne.src.includes('Blue-Horizontal') &&
-//         candyTwo.src.includes('Blue') &&
-//         candyThree.src.includes('Blue') &&
-//         !candyOne.src.includes('blank') &&
-//         !candyTwo.src.includes('blank') &&
-//         !candyThree.src.includes('blank')
-//       ) { for ( let column = 0; column = column.length; column++) {
-//         column[column].src = './images/blank.png';
-//       }
-//       }
-//     }
-//   }
-// }
+function ridColumn(columnIndex) {
+  for (let r = 0; r < rows; r++) {
+    let candy = board[r][columnIndex];
+    if (!candy.src.includes('blank')) {
+      candy.src = './images/blank.png';
+      score += 10;
+    }
+  }
+}
+
+function crushColumn() {
+  // let candyOne = board[6][0];
+  // let candyTwo = board[7][0];
+  // let candyThree = board[8][0];
+  // let bool =
+  //   candyOne.src.includes('Purple-Vertical') &&
+  //   candyTwo.src.includes('Purple') &&
+  //   candyThree.src.includes('Purple') &&
+  //   !candyOne.src.includes('blank') &&
+  //   !candyTwo.src.includes('blank') &&
+  //   !candyThree.src.includes('blank');
+  // console.log(bool);
+
+  for (let c = 0; c < columns; c++) {
+    for (let r = 0; r < rows - 2; r++) {
+      let candyOne = board[r][c];
+      let candyTwo = board[r + 1][c];
+      let candyThree = board[r + 2][c];
+
+      if (
+        (candyOne.src.includes('Blue-Striped-Vertical') &&
+          candyTwo.src.includes('Blue') &&
+          candyThree.src.includes('Blue') &&
+          !candyOne.src.includes('blank') &&
+          !candyTwo.src.includes('blank') &&
+          !candyThree.src.includes('blank')) ||
+        (candyOne.src.includes('Blue') &&
+          candyTwo.src.includes('Blue-Striped-Vertical') &&
+          candyThree.src.includes('Blue') &&
+          !candyOne.src.includes('blank') &&
+          !candyTwo.src.includes('blank') &&
+          !candyThree.src.includes('blank')) ||
+        (candyOne.src.includes('Blue') &&
+          candyTwo.src.includes('Blue') &&
+          candyThree.src.includes('Blue-Striped-Vertical') &&
+          !candyOne.src.includes('blank') &&
+          !candyTwo.src.includes('blank') &&
+          !candyThree.src.includes('blank'))
+      ) {
+        ridColumn(c);
+      } else if (
+        (candyOne.src.includes('Green-Striped-Vertical') &&
+          candyTwo.src.includes('Green') &&
+          candyThree.src.includes('Green') &&
+          !candyOne.src.includes('blank') &&
+          !candyTwo.src.includes('blank') &&
+          !candyThree.src.includes('blank')) ||
+        (candyOne.src.includes('Green') &&
+          candyTwo.src.includes('Green-Striped-Vertical') &&
+          candyThree.src.includes('Green') &&
+          !candyOne.src.includes('blank') &&
+          !candyTwo.src.includes('blank') &&
+          !candyThree.src.includes('blank')) ||
+        (candyOne.src.includes('Green') &&
+          candyTwo.src.includes('Green') &&
+          candyThree.src.includes('Green-Striped-Vertical') &&
+          !candyOne.src.includes('blank') &&
+          !candyTwo.src.includes('blank') &&
+          !candyThree.src.includes('blank'))
+      ) {
+        ridColumn(c);
+      } else if (
+        (candyOne.src.includes('Red-Striped-Vertical') &&
+          candyTwo.src.includes('Red') &&
+          candyThree.src.includes('Red') &&
+          !candyOne.src.includes('blank') &&
+          !candyTwo.src.includes('blank') &&
+          !candyThree.src.includes('blank')) ||
+        (candyOne.src.includes('Red') &&
+          candyTwo.src.includes('Red-Striped-Vertical') &&
+          candyThree.src.includes('Red') &&
+          !candyOne.src.includes('blank') &&
+          !candyTwo.src.includes('blank') &&
+          !candyThree.src.includes('blank')) ||
+        (candyOne.src.includes('Red') &&
+          candyTwo.src.includes('Red') &&
+          candyThree.src.includes('Red-Striped-Vertical') &&
+          !candyOne.src.includes('blank') &&
+          !candyTwo.src.includes('blank') &&
+          !candyThree.src.includes('blank'))
+      ) {
+        ridColumn(candyOne[c]);
+      } else if (
+        (candyOne.src.includes('Yellow-Striped-Vertical') &&
+          candyTwo.src.includes('Yellow') &&
+          candyThree.src.includes('Yellow') &&
+          !candyOne.src.includes('blank') &&
+          !candyTwo.src.includes('blank') &&
+          !candyThree.src.includes('blank')) ||
+        (candyOne.src.includes('Yellow') &&
+          candyTwo.src.includes('Yellow-Striped-Vertical') &&
+          candyThree.src.includes('Yellow') &&
+          !candyOne.src.includes('blank') &&
+          !candyTwo.src.includes('blank') &&
+          !candyThree.src.includes('blank')) ||
+        (candyOne.src.includes('Yellow') &&
+          candyTwo.src.includes('Yellow') &&
+          candyThree.src.includes('Yellow-Striped-Vertical') &&
+          !candyOne.src.includes('blank') &&
+          !candyTwo.src.includes('blank') &&
+          !candyThree.src.includes('blank'))
+      ) {
+        ridColumn(candyOne[c]);
+      } else if (
+        (candyOne.src.includes('Purple-Striped-Vertical') &&
+          candyTwo.src.includes('Purple') &&
+          candyThree.src.includes('Purple') &&
+          !candyOne.src.includes('blank') &&
+          !candyTwo.src.includes('blank') &&
+          !candyThree.src.includes('blank')) ||
+        (candyOne.src.includes('Purple') &&
+          candyTwo.src.includes('Purple-Striped-Vertical') &&
+          candyThree.src.includes('Purple') &&
+          !candyOne.src.includes('blank') &&
+          !candyTwo.src.includes('blank') &&
+          !candyThree.src.includes('blank')) ||
+        (candyOne.src.includes('Purple') &&
+          candyTwo.src.includes('Purple') &&
+          candyThree.src.includes('Purple-Striped-Vertical') &&
+          !candyOne.src.includes('blank') &&
+          !candyTwo.src.includes('blank') &&
+          !candyThree.src.includes('blank'))
+      ) {
+        ridColumn(candyOne[c]);
+      } else if (
+        (candyOne.src.includes('Orange-Striped-Vertical') &&
+          candyTwo.src.includes('Orange') &&
+          candyThree.src.includes('Orange') &&
+          !candyOne.src.includes('blank') &&
+          !candyTwo.src.includes('blank') &&
+          !candyThree.src.includes('blank')) ||
+        (candyOne.src.includes('Orange') &&
+          candyTwo.src.includes('Orange-Striped-Vertical') &&
+          candyThree.src.includes('Orange') &&
+          !candyOne.src.includes('blank') &&
+          !candyTwo.src.includes('blank') &&
+          !candyThree.src.includes('blank')) ||
+        (candyOne.src.includes('Orange') &&
+          candyTwo.src.includes('Orange') &&
+          candyThree.src.includes('Orange-Striped-Vertical') &&
+          !candyOne.src.includes('blank') &&
+          !candyTwo.src.includes('blank') &&
+          !candyThree.src.includes('blank'))
+      ) {
+        ridColumn(candyOne[c]);
+      }
+    }
+  }
+}
 
 function checkValid() {
   for (let r = 0; r < rows; r++) {
@@ -695,28 +878,287 @@ function checkValid() {
         !candyOne.src.includes('blank')
       ) {
         return true;
-      }
-    }
-  }
-
-  for (let c = 0; c < columns; c++) {
-    for (let r = 0; r < rows - 2; r++) {
-      let candyOne = board[r][c];
-      let candyTwo = board[r + 1][c];
-      let candyThree = board[r + 2][c];
-
-      if (
-        candyOne.src == candyTwo.src &&
-        candyTwo.src == candyThree.src &&
-        !candyOne.src.includes('blank')
+      } else if (
+        (candyOne.src.includes('Blue-Striped-Vertical') &&
+          candyTwo.src.includes('Blue') &&
+          candyThree.src.includes('Blue') &&
+          !candyOne.src.includes('blank') &&
+          !candyTwo.src.includes('blank') &&
+          !candyThree.src.includes('blank')) ||
+        (candyOne.src.includes('Blue') &&
+          candyTwo.src.includes('Blue-Striped-Vertical') &&
+          candyThree.src.includes('Blue') &&
+          !candyOne.src.includes('blank') &&
+          !candyTwo.src.includes('blank') &&
+          !candyThree.src.includes('blank')) ||
+        (candyOne.src.includes('Blue') &&
+          candyTwo.src.includes('Blue') &&
+          candyThree.src.includes('Blue-Striped-Vertical') &&
+          !candyOne.src.includes('blank') &&
+          !candyTwo.src.includes('blank') &&
+          !candyThree.src.includes('blank'))
+      ) {
+        return true;
+      } else if 
+        (candyOne.src.includes('Green-Striped-Vertical') &&
+          candyTwo.src.includes('Green') &&
+          candyThree.src.includes('Green') &&
+          !candyOne.src.includes('blank') &&
+          !candyTwo.src.includes('blank') &&
+          !candyThree.src.includes('blank') ||
+        candyOne.src.includes('Green') &&
+          candyTwo.src.includes('Green-Striped-Vertical') &&
+          candyThree.src.includes('Green') &&
+          !candyOne.src.includes('blank') &&
+          !candyTwo.src.includes('blank') &&
+          !candyThree.src.includes('blank') ||
+        candyOne.src.includes('Green') &&
+          candyTwo.src.includes('Green') &&
+          candyThree.src.includes('Green-Striped-Vertical') &&
+          !candyOne.src.includes('blank') &&
+          !candyTwo.src.includes('blank') &&
+          !candyThree.src.includes('blank')
+        )
+       {
+        return true;
+      } else if 
+        (candyOne.src.includes('Red-Striped-Vertical') &&
+          candyTwo.src.includes('Red') &&
+          candyThree.src.includes('Red') &&
+          !candyOne.src.includes('blank') &&
+          !candyTwo.src.includes('blank') &&
+          !candyThree.src.includes('blank') ||
+        candyOne.src.includes('Red') &&
+          candyTwo.src.includes('Red-Striped-Vertical') &&
+          candyThree.src.includes('Red') &&
+          !candyOne.src.includes('blank') &&
+          !candyTwo.src.includes('blank') &&
+          !candyThree.src.includes('blank') ||
+        candyOne.src.includes('Red') &&
+          candyTwo.src.includes('Red') &&
+          candyThree.src.includes('Red-Striped-Vertical') &&
+          !candyOne.src.includes('blank') &&
+          !candyTwo.src.includes('blank') &&
+          !candyThree.src.includes('blank')
+      ) {
+        return true;
+      } else if 
+        (candyOne.src.includes('Yellow-Striped-Vertical') &&
+          candyTwo.src.includes('Yellow') &&
+          candyThree.src.includes('Yellow') &&
+          !candyOne.src.includes('blank') &&
+          !candyTwo.src.includes('blank') &&
+          !candyThree.src.includes('blank') ||
+        candyOne.src.includes('Yellow') &&
+          candyTwo.src.includes('Yellow-Striped-Vertical') &&
+          candyThree.src.includes('Yellow') &&
+          !candyOne.src.includes('blank') &&
+          !candyTwo.src.includes('blank') &&
+          !candyThree.src.includes('blank') ||
+        candyOne.src.includes('Yellow') &&
+          candyTwo.src.includes('Yellow') &&
+          candyThree.src.includes('Yellow-Striped-Vertical') &&
+          !candyOne.src.includes('blank') &&
+          !candyTwo.src.includes('blank') &&
+          !candyThree.src.includes('blank')
+      ) {
+        return true;
+      } else if 
+        (candyOne.src.includes('Purple-Striped-Vertical') &&
+          candyTwo.src.includes('Purple') &&
+          candyThree.src.includes('Purple') &&
+          !candyOne.src.includes('blank') &&
+          !candyTwo.src.includes('blank') &&
+          !candyThree.src.includes('blank') ||
+        candyOne.src.includes('Purple') &&
+          candyTwo.src.includes('Purple-Striped-Vertical') &&
+          candyThree.src.includes('Purple') &&
+          !candyOne.src.includes('blank') &&
+          !candyTwo.src.includes('blank') &&
+          !candyThree.src.includes('blank') ||
+        candyOne.src.includes('Purple') &&
+          candyTwo.src.includes('Purple') &&
+          candyThree.src.includes('Purple-Striped-Vertical') &&
+          !candyOne.src.includes('blank') &&
+          !candyTwo.src.includes('blank') &&
+          !candyThree.src.includes('blank')
+      ) {
+        return true;
+      } else if 
+        (candyOne.src.includes('Orange-Striped-Vertical') &&
+          candyTwo.src.includes('Orange') &&
+          candyThree.src.includes('Orange') &&
+          !candyOne.src.includes('blank') &&
+          !candyTwo.src.includes('blank') &&
+          !candyThree.src.includes('blank') ||
+        candyOne.src.includes('Orange') &&
+          candyTwo.src.includes('Orange-Striped-Vertical') &&
+          candyThree.src.includes('Orange') &&
+          !candyOne.src.includes('blank') &&
+          !candyTwo.src.includes('blank') &&
+          !candyThree.src.includes('blank') ||
+        candyOne.src.includes('Orange') &&
+          candyTwo.src.includes('Orange') &&
+          candyThree.src.includes('Orange-Striped-Vertical') &&
+          !candyOne.src.includes('blank') &&
+          !candyTwo.src.includes('blank') &&
+          !candyThree.src.includes('blank')
       ) {
         return true;
       }
     }
   }
-
-  return false;
+  {
+    return true;
+  }
 }
+
+for (let c = 0; c < columns; c++) {
+  for (let r = 0; r < rows - 2; r++) {
+    let candyOne = board[r][c];
+    let candyTwo = board[r + 1][c];
+    let candyThree = board[r + 2][c];
+
+    if (
+      candyOne.src == candyTwo.src &&
+      candyTwo.src == candyThree.src &&
+      !candyOne.src.includes('blank')
+    ) {
+      return true;
+    } else if (
+      (candyOne.src.includes('Blue-Striped-Vertical') &&
+        candyTwo.src.includes('Blue') &&
+        candyThree.src.includes('Blue') &&
+        !candyOne.src.includes('blank') &&
+        !candyTwo.src.includes('blank') &&
+        !candyThree.src.includes('blank')) ||
+      (candyOne.src.includes('Blue') &&
+        candyTwo.src.includes('Blue-Striped-Vertical') &&
+        candyThree.src.includes('Blue') &&
+        !candyOne.src.includes('blank') &&
+        !candyTwo.src.includes('blank') &&
+        !candyThree.src.includes('blank')) ||
+      (candyOne.src.includes('Blue') &&
+        candyTwo.src.includes('Blue') &&
+        candyThree.src.includes('Blue-Striped-Vertical') &&
+        !candyOne.src.includes('blank') &&
+        !candyTwo.src.includes('blank') &&
+        !candyThree.src.includes('blank'))
+    ) {
+      return true;
+    } else if 
+      (candyOne.src.includes('Green-Striped-Vertical') &&
+        candyTwo.src.includes('Green') &&
+        candyThree.src.includes('Green') &&
+        !candyOne.src.includes('blank') &&
+        !candyTwo.src.includes('blank') &&
+        !candyThree.src.includes('blank') ||
+      candyOne.src.includes('Green') &&
+        candyTwo.src.includes('Green-Striped-Vertical') &&
+        candyThree.src.includes('Green') &&
+        !candyOne.src.includes('blank') &&
+        !candyTwo.src.includes('blank') &&
+        !candyThree.src.includes('blank') ||
+      candyOne.src.includes('Green') &&
+        candyTwo.src.includes('Green') &&
+        candyThree.src.includes('Green-Striped-Vertical') &&
+        !candyOne.src.includes('blank') &&
+        !candyTwo.src.includes('blank') &&
+        !candyThree.src.includes('blank')
+      )
+     {
+      return true;
+    } else if 
+      (candyOne.src.includes('Red-Striped-Vertical') &&
+        candyTwo.src.includes('Red') &&
+        candyThree.src.includes('Red') &&
+        !candyOne.src.includes('blank') &&
+        !candyTwo.src.includes('blank') &&
+        !candyThree.src.includes('blank') ||
+      candyOne.src.includes('Red') &&
+        candyTwo.src.includes('Red-Striped-Vertical') &&
+        candyThree.src.includes('Red') &&
+        !candyOne.src.includes('blank') &&
+        !candyTwo.src.includes('blank') &&
+        !candyThree.src.includes('blank') ||
+      candyOne.src.includes('Red') &&
+        candyTwo.src.includes('Red') &&
+        candyThree.src.includes('Red-Striped-Vertical') &&
+        !candyOne.src.includes('blank') &&
+        !candyTwo.src.includes('blank') &&
+        !candyThree.src.includes('blank')
+    ) {
+      return true;
+    } else if 
+      (candyOne.src.includes('Yellow-Striped-Vertical') &&
+        candyTwo.src.includes('Yellow') &&
+        candyThree.src.includes('Yellow') &&
+        !candyOne.src.includes('blank') &&
+        !candyTwo.src.includes('blank') &&
+        !candyThree.src.includes('blank') ||
+      candyOne.src.includes('Yellow') &&
+        candyTwo.src.includes('Yellow-Striped-Vertical') &&
+        candyThree.src.includes('Yellow') &&
+        !candyOne.src.includes('blank') &&
+        !candyTwo.src.includes('blank') &&
+        !candyThree.src.includes('blank') ||
+      candyOne.src.includes('Yellow') &&
+        candyTwo.src.includes('Yellow') &&
+        candyThree.src.includes('Yellow-Striped-Vertical') &&
+        !candyOne.src.includes('blank') &&
+        !candyTwo.src.includes('blank') &&
+        !candyThree.src.includes('blank')
+    ) {
+      return true;
+    } else if 
+      (candyOne.src.includes('Purple-Striped-Vertical') &&
+        candyTwo.src.includes('Purple') &&
+        candyThree.src.includes('Purple') &&
+        !candyOne.src.includes('blank') &&
+        !candyTwo.src.includes('blank') &&
+        !candyThree.src.includes('blank') ||
+      candyOne.src.includes('Purple') &&
+        candyTwo.src.includes('Purple-Striped-Vertical') &&
+        candyThree.src.includes('Purple') &&
+        !candyOne.src.includes('blank') &&
+        !candyTwo.src.includes('blank') &&
+        !candyThree.src.includes('blank') ||
+      candyOne.src.includes('Purple') &&
+        candyTwo.src.includes('Purple') &&
+        candyThree.src.includes('Purple-Striped-Vertical') &&
+        !candyOne.src.includes('blank') &&
+        !candyTwo.src.includes('blank') &&
+        !candyThree.src.includes('blank')
+    ) {
+      return true;
+    } else if 
+      (candyOne.src.includes('Orange-Striped-Vertical') &&
+        candyTwo.src.includes('Orange') &&
+        candyThree.src.includes('Orange') &&
+        !candyOne.src.includes('blank') &&
+        !candyTwo.src.includes('blank') &&
+        !candyThree.src.includes('blank') ||
+      candyOne.src.includes('Orange') &&
+        candyTwo.src.includes('Orange-Striped-Vertical') &&
+        candyThree.src.includes('Orange') &&
+        !candyOne.src.includes('blank') &&
+        !candyTwo.src.includes('blank') &&
+        !candyThree.src.includes('blank') ||
+      candyOne.src.includes('Orange') &&
+        candyTwo.src.includes('Orange') &&
+        candyThree.src.includes('Orange-Striped-Vertical') &&
+        !candyOne.src.includes('blank') &&
+        !candyTwo.src.includes('blank') &&
+        !candyThree.src.includes('blank')
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+}
+
+
 
 function slideCandy() {
   for (let c = 0; c < columns; c++) {
