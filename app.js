@@ -6,14 +6,21 @@ let score = 0;
 let gameStarted = false;
 let testData = [
   ['Green', 'Blue', 'Blue', 'Green', 'Blue-Striped-Horizontal', 'Blue'],
-  ['Green', 'Yellow', 'Orange','Green', 'Yellow', 'Orange'],
-  ['Green', 'Green', 'Blue','Green', 'Green', 'Blue'],
-  ['Blue', 'Green', 'Blue','Blue', 'Green', 'Blue'],
-  ['Yellow', 'Yellow', 'Orange','Yellow', 'Yellow', 'Orange'],
-  ['Blue', 'Orange', 'Green','Blue', 'Orange', 'Green'],
-  ['Orange', 'Blue', 'Green','Green', 'Blue', 'Green-Striped-Horizontal'],
-  ['Orange', 'Green', 'Blue','Orange', 'Green', 'Blue'],
-  ['Orange', 'Orange', 'Orange-Striped-Vertical','Orange', 'Orange', 'Orange-Striped-Horizontal'],
+  ['Green', 'Yellow', 'Orange', 'Green', 'Yellow', 'Orange'],
+  ['Green', 'Green', 'Blue', 'Green', 'Green', 'Blue'],
+  ['Blue', 'Green', 'Blue', 'Blue', 'Green', 'Blue'],
+  ['Yellow', 'Yellow', 'Orange', 'Yellow', 'Yellow', 'Orange'],
+  ['Blue', 'Orange', 'Green', 'Blue', 'Orange', 'Green'],
+  ['Orange', 'Blue', 'Green', 'Green', 'Blue', 'Green-Striped-Horizontal'],
+  ['Orange', 'Green', 'Blue', 'Orange', 'Green', 'Blue'],
+  [
+    'Orange',
+    'Orange',
+    'Orange-Striped-Vertical',
+    'Orange',
+    'Orange',
+    'Orange-Striped-Horizontal',
+  ],
 ];
 
 window.onload = function () {
@@ -961,8 +968,6 @@ function crushRow() {
         candyTwo.src = './images/blank.png';
         break;
       }
-      {
-      }
     }
   }
   for (let r = 0; r < rows; r++) {
@@ -1034,7 +1039,7 @@ function crushRow() {
         ridRow(r);
         break;
       }
-      
+
       if (
         candyOne.src.includes('Red-Striped-Horizontal') &&
         candyTwo.src.includes('Red') &&
@@ -1066,7 +1071,7 @@ function crushRow() {
         ridRow(r);
         break;
       }
-      
+
       if (
         candyOne.src.includes('Yellow-Striped-Horizontal') &&
         candyTwo.src.includes('Yellow') &&
@@ -1098,7 +1103,7 @@ function crushRow() {
         ridRow(r);
         break;
       }
-      
+
       if (
         candyOne.src.includes('Purple-Striped-Horizontal') &&
         candyTwo.src.includes('Purple') &&
@@ -1130,7 +1135,7 @@ function crushRow() {
         ridRow(r);
         break;
       }
-      
+
       if (
         candyOne.src.includes('Orange-Striped-Horizontal') &&
         candyTwo.src.includes('Orange') &&
@@ -1162,7 +1167,6 @@ function crushRow() {
         ridRow(r);
         break;
       }
-      
     }
   }
 }
@@ -1443,7 +1447,7 @@ function crushColumn() {
         candyTwo.src = './images/blank.png';
         break;
       }
-     
+
       if (
         candyOne.src.includes('Red-Striped-Vertical') &&
         candyTwo.src.includes('Red') &&
@@ -1481,7 +1485,7 @@ function crushColumn() {
         candyTwo.src = './images/blank.png';
         break;
       }
-    
+
       if (
         candyOne.src.includes('Yellow-Striped-Vertical') &&
         candyTwo.src.includes('Yellow') &&
@@ -1519,7 +1523,7 @@ function crushColumn() {
         candyTwo.src = './images/blank.png';
         break;
       }
-    
+
       if (
         candyOne.src.includes('Purple-Striped-Vertical') &&
         candyTwo.src.includes('Purple') &&
@@ -1557,7 +1561,7 @@ function crushColumn() {
         candyTwo.src = './images/blank.png';
         break;
       }
-     
+
       if (
         candyOne.src.includes('Orange-Striped-Vertical') &&
         candyTwo.src.includes('Orange') &&
@@ -1631,7 +1635,7 @@ function checkValid() {
           !candyOne.src.includes('blank') &&
           !candyTwo.src.includes('blank') &&
           !candyThree.src.includes('blank')) ||
-          (candyOne.src.includes('Blue-Striped-Horizontal') &&
+        (candyOne.src.includes('Blue-Striped-Horizontal') &&
           candyTwo.src.includes('Blue') &&
           candyThree.src.includes('Blue') &&
           !candyOne.src.includes('blank') &&
@@ -1649,7 +1653,6 @@ function checkValid() {
           !candyOne.src.includes('blank') &&
           !candyTwo.src.includes('blank') &&
           !candyThree.src.includes('blank'))
-          
       ) {
         return true;
       } else if (
@@ -1671,7 +1674,7 @@ function checkValid() {
           !candyOne.src.includes('blank') &&
           !candyTwo.src.includes('blank') &&
           !candyThree.src.includes('blank')) ||
-          (candyOne.src.includes('Green-Striped-Horizontal') &&
+        (candyOne.src.includes('Green-Striped-Horizontal') &&
           candyTwo.src.includes('Green') &&
           candyThree.src.includes('Green') &&
           !candyOne.src.includes('blank') &&
@@ -1710,7 +1713,7 @@ function checkValid() {
           !candyOne.src.includes('blank') &&
           !candyTwo.src.includes('blank') &&
           !candyThree.src.includes('blank')) ||
-          (candyOne.src.includes('Red-Striped-Horizontal') &&
+        (candyOne.src.includes('Red-Striped-Horizontal') &&
           candyTwo.src.includes('Red') &&
           candyThree.src.includes('Red') &&
           !candyOne.src.includes('blank') &&
@@ -1749,7 +1752,7 @@ function checkValid() {
           !candyOne.src.includes('blank') &&
           !candyTwo.src.includes('blank') &&
           !candyThree.src.includes('blank')) ||
-          (candyOne.src.includes('Yellow-Striped-Horizontal') &&
+        (candyOne.src.includes('Yellow-Striped-Horizontal') &&
           candyTwo.src.includes('Yellow') &&
           candyThree.src.includes('Yellow') &&
           !candyOne.src.includes('blank') &&
@@ -1788,7 +1791,7 @@ function checkValid() {
           !candyOne.src.includes('blank') &&
           !candyTwo.src.includes('blank') &&
           !candyThree.src.includes('blank')) ||
-          (candyOne.src.includes('Purple-Striped-Horizontal') &&
+        (candyOne.src.includes('Purple-Striped-Horizontal') &&
           candyTwo.src.includes('Purple') &&
           candyThree.src.includes('Purple') &&
           !candyOne.src.includes('blank') &&
@@ -1827,7 +1830,7 @@ function checkValid() {
           !candyOne.src.includes('blank') &&
           !candyTwo.src.includes('blank') &&
           !candyThree.src.includes('blank')) ||
-          (candyOne.src.includes('Orange-Striped-Horizontal') &&
+        (candyOne.src.includes('Orange-Striped-Horizontal') &&
           candyTwo.src.includes('Orange') &&
           candyThree.src.includes('Orange') &&
           !candyOne.src.includes('blank') &&
@@ -1881,7 +1884,7 @@ function checkValid() {
           !candyOne.src.includes('blank') &&
           !candyTwo.src.includes('blank') &&
           !candyThree.src.includes('blank')) ||
-          (candyOne.src.includes('Blue-Striped-Horizontal') &&
+        (candyOne.src.includes('Blue-Striped-Horizontal') &&
           candyTwo.src.includes('Blue') &&
           candyThree.src.includes('Blue') &&
           !candyOne.src.includes('blank') &&
@@ -1899,7 +1902,6 @@ function checkValid() {
           !candyOne.src.includes('blank') &&
           !candyTwo.src.includes('blank') &&
           !candyThree.src.includes('blank'))
-          
       ) {
         return true;
       } else if (
@@ -1921,7 +1923,7 @@ function checkValid() {
           !candyOne.src.includes('blank') &&
           !candyTwo.src.includes('blank') &&
           !candyThree.src.includes('blank')) ||
-          (candyOne.src.includes('Green-Striped-Horizontal') &&
+        (candyOne.src.includes('Green-Striped-Horizontal') &&
           candyTwo.src.includes('Green') &&
           candyThree.src.includes('Green') &&
           !candyOne.src.includes('blank') &&
@@ -1960,7 +1962,7 @@ function checkValid() {
           !candyOne.src.includes('blank') &&
           !candyTwo.src.includes('blank') &&
           !candyThree.src.includes('blank')) ||
-          (candyOne.src.includes('Red-Striped-Horizontal') &&
+        (candyOne.src.includes('Red-Striped-Horizontal') &&
           candyTwo.src.includes('Red') &&
           candyThree.src.includes('Red') &&
           !candyOne.src.includes('blank') &&
@@ -1999,7 +2001,7 @@ function checkValid() {
           !candyOne.src.includes('blank') &&
           !candyTwo.src.includes('blank') &&
           !candyThree.src.includes('blank')) ||
-          (candyOne.src.includes('Yellow-Striped-Horizontal') &&
+        (candyOne.src.includes('Yellow-Striped-Horizontal') &&
           candyTwo.src.includes('Yellow') &&
           candyThree.src.includes('Yellow') &&
           !candyOne.src.includes('blank') &&
@@ -2038,7 +2040,7 @@ function checkValid() {
           !candyOne.src.includes('blank') &&
           !candyTwo.src.includes('blank') &&
           !candyThree.src.includes('blank')) ||
-          (candyOne.src.includes('Purple-Striped-Horizontal') &&
+        (candyOne.src.includes('Purple-Striped-Horizontal') &&
           candyTwo.src.includes('Purple') &&
           candyThree.src.includes('Purple') &&
           !candyOne.src.includes('blank') &&
@@ -2077,7 +2079,7 @@ function checkValid() {
           !candyOne.src.includes('blank') &&
           !candyTwo.src.includes('blank') &&
           !candyThree.src.includes('blank')) ||
-          (candyOne.src.includes('Orange-Striped-Horizontal') &&
+        (candyOne.src.includes('Orange-Striped-Horizontal') &&
           candyTwo.src.includes('Orange') &&
           candyThree.src.includes('Orange') &&
           !candyOne.src.includes('blank') &&
@@ -2100,7 +2102,7 @@ function checkValid() {
       }
     }
   }
-};
+}
 
 function slideCandy() {
   for (let c = 0; c < columns; c++) {
@@ -2115,7 +2117,7 @@ function slideCandy() {
       board[r][c].src = './images/blank.png';
     }
   }
-};
+}
 
 function generateCandy() {
   for (let c = 0; c < columns; c++) {
@@ -2123,4 +2125,4 @@ function generateCandy() {
       board[0][c].src = './images/' + randomCandy() + '.png';
     }
   }
-};
+}
